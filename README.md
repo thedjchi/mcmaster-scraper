@@ -4,7 +4,9 @@ A Python library for fetching product tables from a McMaster-Carr URL as a DataF
 ## Features
 - Asynchronous API compatible with both Python files and Jupyter notebooks
 - Caches data locally to speed up subsequent calls
-- 
+
+## Setup
+`pip install mcmaster-parser`
 
 ## Usage
 ```

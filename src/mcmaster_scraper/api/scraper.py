@@ -3,10 +3,9 @@ import json
 
 
 # TODO input validation (valid McMaster url)
-# TODO handle no product page
 # TODO handle other errors
 async def get_product_api_response(url: str) -> dict:
-    # Using Playwright because the API
+    # Using Playwright because the API can only be discovered by loading the JavaScript
     async with async_playwright() as pw:
         print("Finding API for product page...")
         browser = await pw.chromium.launch(headless=True)

@@ -23,7 +23,7 @@ def _find_pivot_table(root: dict) -> dict:
         elif isinstance(node, list):
             stack.extend(node)
 
-    raise IOError("ProductPresentations table not found")
+    raise IOError("The McMaster URL provided does not have a visible product table.")
 
 
 def _parse_pivot_table(table: dict) -> DataFrame:
