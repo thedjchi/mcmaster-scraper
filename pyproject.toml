@@ -1,0 +1,25 @@
+[project]
+name = "mcmaster-scraper"
+version = "0.1.0"
+description = "Fetch product tables from a McMaster-Carr URL as a DataFrame for complex filtering and calculations"
+keywords = ["mcmaster", "mcmaster-carr", "scraper", "extractor", "parser", "fetcher", "part", "catalog", "product"]
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE*"]
+authors = [
+    { name = "Alex", email = "thedjchidev@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "diskcache==5.6.3",
+    "ipykernel>=7.2.0",
+    "pandas==3.0.2,<4.0.0",
+    "playwright==1.59.0,<2.0.0",
+]
+
+[project.urls]
+github = "https://github.com/thedjchi/mcmaster-scraper"
+
+[build-system]
+requires = ["uv_build>=0.11.8,<0.12.0"]
+build-backend = "uv_build"
