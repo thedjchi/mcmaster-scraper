@@ -7,7 +7,6 @@ def get_product_tables(json: dict) -> dict[str, DataFrame]:
     return dataframes
 
 
-# TODO iterate over all tables
 def _find_pivot_tables(root: dict) -> dict:
     stack = [root]
     while stack:
@@ -22,7 +21,7 @@ def _find_pivot_tables(root: dict) -> dict:
         elif isinstance(node, list):
             stack.extend(node)
 
-    raise IOError("The McMaster URL provided does not have a visible product table.")
+    raise KeyError("The McMaster URL provided does not have a visible product table.")
 
 
 def _parse_pivot_table(table: dict) -> DataFrame:

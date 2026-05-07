@@ -22,25 +22,25 @@ async def get_products_from_url(
 ) -> DataFrame:
     """ Gets product tables from a given McMaster-Carr URL.
 
-    If there are multiple product tables, they will be merged, and an additional "Product" column will be added.
+        If there are multiple product tables, they will be merged, and an additional "Product" column will be added.
 
-    Parameters
-    ----------
-    url : str
-        The URL to scrape. Must be a valid McMaster-Carr URL. The product tables must be visible on the webpage.
-    refresh : bool, optional
-        Whether to refresh the cached data. Default is False.
+        Parameters
+        ----------
+        url : str
+            The URL to scrape. Must be a valid McMaster-Carr URL. The product tables must be visible on the webpage.
+        refresh : bool, optional
+            Whether to refresh the cached data. Default is False.
 
-    Returns
-    -------
-    DataFrame
-        A pandas DataFrame containing the combined product tables.
+        Returns
+        -------
+        DataFrame
+            A pandas DataFrame containing the combined product tables.
 
-    Raises
-    ------
-    ValueError
-        If the URL is not a valid McMaster-Carr URL.
-    """
+        Raises
+        ------
+        ValueError
+            If the URL is not a valid McMaster-Carr URL.
+        """
     cache_dir = platformdirs.user_cache_dir("mcmaster-scraper", None)
     cache = dc.Cache(cache_dir, eviction_policy="least-recently-used")
     key = hashlib.md5(url.encode()).hexdigest()
