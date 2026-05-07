@@ -7,14 +7,14 @@ _STANDARD_HEADERS = {
 
 
 def get_header_text(col_id: int, meta: dict):
-    header_type = meta.get("Type")
+    # Column Id -> Column Metadata
+    column_metas = meta["ColumnIdToMetadata"]
+    column_meta = column_metas[col_id]
+
+    header_type = column_meta.get("Type")
     if isinstance(header_type, str) and header_type in _STANDARD_HEADERS:
         return _STANDARD_HEADERS[header_type]
     else:
-        # Column Id -> Column Metadata
-        column_metas = meta["ColumnIdToMetadata"]
-        column_meta = column_metas[col_id]
-
         # Column Metadata -> Header
         return _extract_text(column_meta)
 
@@ -34,8 +34,8 @@ def get_cell_text(cell_id: int, meta: dict):
 
 
 def _extract_text(meta_item: dict):
-    components = meta_item.get("Name").get("Components")
-    text = "".join(c["Text"] for c in components)
+    components = meta_item["Name"]["Components"]
+    text = " ".join(c["Text"] for c in components)
 
     return _parse_number(text)
 

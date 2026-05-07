@@ -1,5 +1,5 @@
 from pandas import DataFrame
-from .textparser import get_header_text, get_cell_text
+from ._text_parser import get_header_text, get_cell_text
 
 def get_product_table(json: dict) -> DataFrame:
     table = _find_pivot_table(json)

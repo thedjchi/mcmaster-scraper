@@ -1,22 +1,23 @@
 import diskcache as dc
 import hashlib
+
+import platformdirs
 from pandas import DataFrame
 
-from .api.tableparser import get_product_table
-from .api.scraper import get_product_api_response
-from .utils.eventloopwrapper import run_in_loop_async, run_in_loop_sync
+from ._api.table_parser import get_product_table
+from ._api.scraper import get_product_api_response
+from ._utils.event_loop_wrapper import run_in_loop_async
 
 
 # TODO add exceptions and example to doc https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard
 # TODO logging instead of print
-# TODO separate sync/async modules
 
 # TODO complete packaging
 # https://docs.astral.sh/uv/guides/package/
 # https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/
 # https://www.pyopensci.org/python-package-guide/
 
-async def get_products_from_url_async(url: str, refresh: bool = False) -> DataFrame:
+async def get_products_from_url(url: str, refresh: bool = False) -> DataFrame:
     """ Get product tables from a given McMaster-Carr URL
 
     Parameters
@@ -31,17 +32,14 @@ async def get_products_from_url_async(url: str, refresh: bool = False) -> DataFr
     DataFrame
         A pandas DataFrame containing the product table.
     """
-    cache = dc.Cache(eviction_policy="least-recently-used")
+    cache_dir = platformdirs.user_cache_dir("mcmaster_scraper", None)
+    cache = dc.Cache(cache_dir, eviction_policy="least-recently-used")
     key = hashlib.md5(url.encode()).hexdigest()
 
-    json = cache.get(key)
-
-    if refresh or not isinstance(json, dict):
+    if key in cache and not refresh:
+        json = cache[key]
+    else:
         json = await run_in_loop_async(get_product_api_response(url))
-        cache.set(key, json)
+        cache[key] = json
 
     return get_product_table(json)
-
-
-def get_products_from_url(url: str, refresh: bool = False) -> DataFrame:
-    return run_in_loop_sync(get_products_from_url_async(url, refresh))

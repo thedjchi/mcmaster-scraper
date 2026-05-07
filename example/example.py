@@ -1,12 +1,10 @@
-import asyncio
-
+from mcmaster_scraper.sync_api import get_products_from_url
 import pandas as pd
-from mcmaster_scraper.main import get_products_from_url, get_products_from_url_async
 
 
-async def main():
+def main():
     url = "https://www.mcmaster.com/products/springs/extension-springs-1~/system-of-measurement~inch"
-    data = await get_products_from_url_async(url, refresh=True)
+    data = get_products_from_url(url)
 
     stretch_length = 0.4
     min_force = 0.5
@@ -28,5 +26,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    res = asyncio.run(main())
-    print(res)
+    print(main())

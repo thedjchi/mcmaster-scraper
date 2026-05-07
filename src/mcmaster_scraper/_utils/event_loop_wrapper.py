@@ -32,12 +32,11 @@ def _run_in_loop(func: Coroutine[Any, Any, T]) -> Future[T]:
 
 def _ensure_loop() -> AbstractEventLoop:
     global _loop
-    if _loop is None:
-        with _lock:
-            if _loop is None:
-                t = threading.Thread(target=_run_loop, daemon=True)
-                t.start()
-                _started.wait()
+    with _lock:
+        if _loop is None:
+            t = threading.Thread(target=_run_loop, daemon=True)
+            t.start()
+            _started.wait()
 
     assert _loop is not None
     return _loop

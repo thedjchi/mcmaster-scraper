@@ -1,4 +1,4 @@
-from playwright.async_api import async_playwright, Response
+from playwright.async_api import async_playwright
 import json
 
 
