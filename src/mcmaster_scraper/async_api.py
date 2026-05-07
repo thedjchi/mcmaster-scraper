@@ -22,7 +22,7 @@ async def get_products_from_url(
         url: str,
         refresh: bool = False
 ) -> DataFrame:
-    """ Gets product tables from a given McMaster-Carr URL.
+    """ Gets product tables from a McMaster-Carr URL.
 
         If there are multiple product tables, they will be merged, and an additional "Product Type" column will be added.
 
