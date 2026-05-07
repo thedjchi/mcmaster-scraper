@@ -1,40 +1,38 @@
 import logging
 import json
 import re
-from playwright.async_api import async_playwright
 
+from .._utils.page_provider import get_page
 
 logger = logging.getLogger(__name__)
+
 
 async def get_product_api_response(url: str) -> dict:
     if not _is_valid_url(url):
         raise ValueError("Not a McMaster-Carr URL")
 
     # Using Playwright because the API can only be discovered by loading the JavaScript
-    async with async_playwright() as pw:
-        logger.info("Finding API for product page...")
-        browser = await pw.chromium.launch(headless=True)
-        page = await browser.new_page()
+    page = await get_page()
 
-        await page.goto(url)
+    await page.goto(url)
 
-        # If the JSON is too large, the response will be evicted from the inspector cache before we can access it
-        # As a workaround, we can navigate to the API URL and extract the response from the page's body
-        product_api = "**/ProdPageWebPart.aspx?**"
-        async with page.expect_request(product_api, timeout=5000) as request:
-            value = await request.value
-            api_url = value.url
+    # If the JSON is too large, the response will be evicted from the inspector cache before we can access it
+    # As a workaround, we can navigate to the API URL and extract the response from the page's body
+    product_api = "**/ProdPageWebPart.aspx?**"
+    async with page.expect_request(product_api, timeout=5000) as request:
+        value = await request.value
+        api_url = value.url
 
-        logger.info("Getting API response...")
-        await page.goto(api_url)
+    logger.info("Getting API response...")
+    await page.goto(api_url)
 
-        res = await page.locator('body').text_content()
-        assert res is not None
+    res = await page.locator('body').text_content()
+    assert res is not None
 
-        data = _extract_json_from_response(res)
+    data = _extract_json_from_response(res)
 
-        await browser.close()
-        return data
+    await page.close()
+    return data
 
 
 def _extract_json_from_response(res: str) -> dict:
