@@ -1,3 +1,5 @@
+from asyncio import TaskGroup
+
 import diskcache as dc
 import hashlib
 
@@ -22,7 +24,7 @@ async def get_products_from_url(
 ) -> DataFrame:
     """ Gets product tables from a given McMaster-Carr URL.
 
-        If there are multiple product tables, they will be merged, and an additional "Product" column will be added.
+        If there are multiple product tables, they will be merged, and an additional "Product Type" column will be added.
 
         Parameters
         ----------
@@ -54,3 +56,16 @@ async def get_products_from_url(
     tables = get_product_tables(json)
     tables_with_product_type = [table.assign(**{"Product Type": product}) for product, table in tables.items()]
     return concat(tables_with_product_type, ignore_index=True)
+
+
+async def get_products_from_urls(urls: list[str], refresh: bool = False) -> list[DataFrame]:
+    """ Gets product tables from a list of McMaster-Carr URLs.
+
+        See Also
+        --------
+        get_products_from_url
+        """
+    async with TaskGroup() as tg:
+        tasks = [tg.create_task(get_products_from_url(url, refresh)) for url in urls]
+
+    return [task.result() for task in tasks]
