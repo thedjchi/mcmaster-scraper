@@ -9,9 +9,8 @@ from ._api.scraper import get_product_api_response
 from ._utils.event_loop_wrapper import run_in_loop_async
 
 
-# TODO add exceptions and example to doc https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard
-# TODO logging instead of print
-
+# TODO add example to doc https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard
+# TODO automate playwright install
 # TODO complete packaging
 # https://docs.astral.sh/uv/guides/package/
 # https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/
@@ -31,8 +30,13 @@ async def get_products_from_url(url: str, refresh: bool = False) -> DataFrame:
     -------
     DataFrame
         A pandas DataFrame containing the product table.
+
+    Raises
+    ------
+    ValueError
+        If the URL is not a valid McMaster-Carr URL.
     """
-    cache_dir = platformdirs.user_cache_dir("mcmaster_scraper", None)
+    cache_dir = platformdirs.user_cache_dir("mcmaster-scraper", None)
     cache = dc.Cache(cache_dir, eviction_policy="least-recently-used")
     key = hashlib.md5(url.encode()).hexdigest()
 

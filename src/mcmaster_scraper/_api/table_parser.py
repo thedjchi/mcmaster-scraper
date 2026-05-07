@@ -9,7 +9,6 @@ def get_product_table(json: dict) -> DataFrame:
 
 # TODO iterate over all tables
 def _find_pivot_table(root: dict) -> dict:
-    print("Finding product data...")
     stack = [root]
     while stack:
         node = stack.pop()
@@ -27,7 +26,6 @@ def _find_pivot_table(root: dict) -> dict:
 
 
 def _parse_pivot_table(table: dict) -> DataFrame:
-    print("Building product tables...")
     col_ids = table["ColumnIds"]
     rows = table["Rows"]
     meta = table["Metadata"]
