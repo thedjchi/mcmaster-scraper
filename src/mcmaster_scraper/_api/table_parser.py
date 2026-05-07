@@ -1,21 +1,21 @@
 from pandas import DataFrame
 from ._text_parser import get_header_text, get_cell_text
 
-def get_product_table(json: dict) -> DataFrame:
-    table = _find_pivot_table(json)
-    dataframe = _parse_pivot_table(table)
-    return dataframe
+def get_product_tables(json: dict) -> dict[str, DataFrame]:
+    tables = _find_pivot_tables(json)
+    dataframes = { k: _parse_pivot_table(v) for k, v in tables.items() }
+    return dataframes
 
 
 # TODO iterate over all tables
-def _find_pivot_table(root: dict) -> dict:
+def _find_pivot_tables(root: dict) -> dict:
     stack = [root]
     while stack:
         node = stack.pop()
 
         if isinstance(node, dict):
             if node.get("Name") == "ProductPresentations":
-                return node["Data"][0]["Table"]
+                return { product["Display"]["Title"]: product["Table"] for product in node["Data"] }
             else:
                 stack.extend(node.values())
 

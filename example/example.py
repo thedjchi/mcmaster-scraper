@@ -9,14 +9,16 @@ def main():
     min_force = 10
     max_force = 10.5
 
-    length = data[data.columns[2]]
-    extended_length = data[data.columns[5]]
-    spring_rate = data[data.columns[8]]
+    product_type = data["Product Type"]
+    length = data["Lg."]
+    extended_length = data["Extended Lg. @ Max. Load"]
+    spring_rate = data["Spring Rate,  lbf/in"]
 
     displacement = stretch_length - length
     force = spring_rate * displacement
 
     filtered = data[
+        (product_type == "Extension Springs") &
         (length < stretch_length) &
         (stretch_length < extended_length) &
         (force.between(min_force, max_force))
