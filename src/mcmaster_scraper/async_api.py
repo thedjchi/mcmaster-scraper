@@ -1,4 +1,4 @@
-from asyncio import TaskGroup
+from asyncio import create_task, gather
 
 import diskcache as dc
 import hashlib
@@ -43,7 +43,11 @@ async def get_products_from_url(
         ValueError
             If the URL is not a valid McMaster-Carr URL.
         """
-    cache_dir = platformdirs.user_cache_dir("mcmaster-scraper", None)
+    cache_dir = platformdirs.user_cache_dir(
+        appname="mcmaster-scraper",
+        appauthor=False,
+        ensure_exists=True
+    )
     cache = dc.Cache(cache_dir, eviction_policy="least-recently-used")
     key = hashlib.md5(url.encode()).hexdigest()
 
@@ -65,7 +69,5 @@ async def get_products_from_urls(urls: list[str], refresh: bool = False) -> list
         --------
         get_products_from_url
         """
-    async with TaskGroup() as tg:
-        tasks = [tg.create_task(get_products_from_url(url, refresh)) for url in urls]
-
-    return [task.result() for task in tasks]
+    tasks = [create_task(get_products_from_url(url, refresh)) for url in urls]
+    return await gather(*tasks)

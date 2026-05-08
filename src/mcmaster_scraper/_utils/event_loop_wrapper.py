@@ -1,12 +1,13 @@
 import asyncio
 import threading
+import sys
 from asyncio import AbstractEventLoop, wrap_future, CancelledError
 from concurrent.futures import Future
-from typing import Coroutine, Any, TypeVar
+from typing import Coroutine, Any, TypeVar, Union
 
 T = TypeVar("T")
 
-_loop: AbstractEventLoop | None = None
+_loop: Union[AbstractEventLoop, None] = None
 _started = threading.Event()
 _lock = threading.Lock()
 
@@ -44,7 +45,10 @@ def _ensure_loop() -> AbstractEventLoop:
 
 def _run_loop():
     global _loop
-    loop = asyncio.EventLoop()
+    if sys.platform.startswith("win"):
+        loop = asyncio.ProactorEventLoop()
+    else:
+        loop = asyncio.SelectorEventLoop()
     asyncio.set_event_loop(loop)
     _loop = loop
     _started.set()

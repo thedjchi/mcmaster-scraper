@@ -1,9 +1,11 @@
 import asyncio
+from typing import Union
+
 from playwright.async_api import async_playwright, Playwright, Browser, Page, BrowserContext
 
-_browser: Browser | None = None
-_browser_context: BrowserContext | None = None
-_playwright: Playwright | None = None
+_browser: Union[Browser, None] = None
+_browser_context: Union[BrowserContext, None] = None
+_playwright: Union[Playwright, None] = None
 _lock = asyncio.Lock()
 
 
