@@ -11,6 +11,7 @@ async def get_product_api_response(url: str) -> dict:
     if not _is_valid_url(url):
         raise ValueError("Not a McMaster-Carr URL")
 
+    logger.info("Finding API for product page...")
     # Using Playwright because the API can only be discovered by loading the JavaScript
     page = await get_page()
 
