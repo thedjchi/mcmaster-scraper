@@ -1,11 +1,11 @@
 name: website
 
-# build the documentation whenever there are new commits on main
+# Build the documentation whenever there are new commits on main
 on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - master
     # Alternative: only build for tags.
     # tags:
     #   - '*'
@@ -26,18 +26,15 @@ jobs:
         with:
           python-version: '3.14'
 
-      # ADJUST THIS: install all dependencies (including pdoc)
       - run: pip install -e .
-      # ADJUST THIS: build your documentation into docs/.
-      # We use a custom build script for pdoc itself, ideally you just run `pdoc -o docs/ ...` here.
-      - run: python pdoc ./src/mcmaster_scraper -o docs/api
+      - run: pdoc ./src/mcmaster_scraper -o docs/api
 
       - uses: actions/upload-pages-artifact@v4
         with:
           path: docs/api/
 
   # Deploy the artifact to GitHub pages.
-  # This is a separate job so that only actions/deploy-pages has the necessary permissions.
+  # This is a separate job so that only actions/deploy-pages have the necessary permissions.
   deploy:
     needs: build
     runs-on: ubuntu-latest
