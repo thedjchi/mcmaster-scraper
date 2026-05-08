@@ -1,7 +1,13 @@
 # McMaster-Scraper
 
-A Python library for fetching product tables from a McMaster-Carr URL as a DataFrame for complex filtering and
+A Python library for fetching product tables from a [McMaster-Carr](https://www.mcmaster.com) URL
+as a [DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) for complex filtering and
 calculations.
+
+![PyPI - Version](https://img.shields.io/pypi/v/mcmaster-scraper?style=for-the-badge)
+![PyPI - Python Versions](https://img.shields.io/pypi/pyversions/mcmaster-scraper?style=for-the-badge)
+![PyPI - License](https://img.shields.io/pypi/l/mcmaster-scraper?style=for-the-badge)
+
 
 ## Features
 
@@ -11,67 +17,40 @@ calculations.
 - Includes convenience functions to quickly retrieve product tables from multiple URLs
 - Typed functions for type-checking compatibility
 
-## Setup
+## Install
 
 McMaster-Scraper is available on PyPi:
 
 `pip install mcmaster-scraper`
 
-McMaster-Scraper requires Playwright to fetch the product tables. It is already included as a dependency. However, you will need to install the browsers manually:
+McMaster-Scraper requires [Playwright](https://playwright.dev/python) to fetch the product tables. It is already included as a dependency. However, you will need to install the browsers manually:
 
 `playwright install`
 
-## Usage
-
-### Imports
+## Quick Start
 
 ```
-# SYNC API
 from mcmaster_scraper.sync_api import get_products_from_url
 
-# ASYNC API
-from mcmaster_scraper.async_api import get_products_from_url
+url = "https://www.mcmaster.com/products/screws/socket-head-screws-2~/steel-socket-head-screws~~/"
+data = get_products_from_url(url) # Returns a DataFrame with all the products from the URL
+
+... # Do stuff with the DataFrame (filter, perform calculations, etc.)
 ```
 
-### get_products_from_url
-`def get_products_from_url(url: str, refresh: bool = False) -> DataFrame`
+## Docs
 
-Gets product tables from a McMaster-Carr URL.
+### API Reference
 
-If there are multiple product tables, they will be merged, and an additional "Product Type" column will be added.
+The API reference can be found in GitHub Pages.
 
-**Parameters:**
+### Examples
 
-    url : str
-        The URL to scrape.
-        Must be a valid McMaster-Carr URL.
-        The product tables must be visible on the webpage.
-
-    refresh : bool, optional
-        Whether to refresh the cached data. Default is `False`.
-
-**Returns:**
-
-    DataFrame
-        A pandas DataFrame containing the combined product tables.
-
-**Raises:**
-
-    ValueError
-        If the URL is not a valid McMaster-Carr URL.
-
-### get_products_from_urls
-`def get_products_from_urls(urls: list[str], refresh: bool = False) -> list[DataFrame]`
-
-Gets product tables from a list of McMaster-Carr URLs.
-
-**See Also:**
-
-`get_products_from_url`
+An example script can be found in [docs/example.py](docs/example.py).
 
 ## Disclaimer
 
-This library is for authorized data extraction only. Do not:
+This library is for responsible data extraction only. Do not:
 
 - Scrape beyond reasonable rates
 - Violate Terms of Service

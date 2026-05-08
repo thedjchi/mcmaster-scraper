@@ -2,6 +2,7 @@ from mcmaster_scraper.sync_api import get_products_from_url
 
 
 def main():
+    """ Returns a DataFrame with extension springs from McMaster-Carr that exert within a range of forces at a given stretch length."""
     url = "https://www.mcmaster.com/products/springs/extension-springs-1~/system-of-measurement~inch"
     data = get_products_from_url(url)
 

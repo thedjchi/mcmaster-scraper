@@ -3,6 +3,21 @@ name = "mcmaster-scraper"
 version = "0.1.0"
 description = "Fetch product tables from a McMaster-Carr URL as a DataFrame for complex filtering and calculations"
 keywords = ["mcmaster", "mcmaster-carr", "scraper", "extractor", "parser", "fetcher", "part", "catalog", "product"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Manufacturing",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering",
+]
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE*"]
@@ -23,3 +38,8 @@ github = "https://github.com/thedjchi/mcmaster-scraper"
 [build-system]
 requires = ["uv_build>=0.11.8,<0.12.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pdoc>=16.0.0",
+]

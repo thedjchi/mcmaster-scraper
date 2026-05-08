@@ -11,9 +11,6 @@ from ._api.scraper import get_product_api_response
 from ._utils.event_loop_wrapper import run_in_loop_async
 
 
-# TODO add example to doc https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard
-# TODO automate playwright install
-# TODO complete packaging
 # https://docs.astral.sh/uv/guides/package/
 # https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/
 # https://www.pyopensci.org/python-package-guide/
