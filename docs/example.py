@@ -2,7 +2,8 @@ from mcmaster_scraper.sync_api import get_products_from_url
 
 
 def main():
-    """ Returns a DataFrame with extension springs from McMaster-Carr that exert within a range of forces at a given stretch length."""
+    """Returns a DataFrame with extension springs from McMaster-Carr that exert
+    within a range of forces at a given stretch length."""
     url = "https://www.mcmaster.com/products/springs/extension-springs-1~/system-of-measurement~inch"
     data = get_products_from_url(url)
 
@@ -19,10 +20,10 @@ def main():
     force = spring_rate * displacement
 
     filtered = data[
-        (product_type == "Extension Springs") &
-        (length < stretch_length) &
-        (stretch_length < extended_length) &
-        (force.between(min_force, max_force))
+        (product_type == "Extension Springs")
+        & (length < stretch_length)
+        & (stretch_length < extended_length)
+        & (force.between(min_force, max_force))
     ]
     return filtered[["Part Number", "Price"]]
 
