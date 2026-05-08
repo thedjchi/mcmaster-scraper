@@ -1,5 +1,5 @@
-import logging
 import json
+import logging
 import re
 
 from .._utils.page_provider import get_page
@@ -16,8 +16,12 @@ async def get_product_api_response(url: str) -> dict:
 
     await page.goto(url)
 
-    # If the JSON is too large, the response will be evicted from the inspector cache before we can access it
-    # As a workaround, we can navigate to the API URL and extract the response from the page's body
+    # If the JSON is too large, the response will be evicted
+    # from the inspector cache before we can access it
+
+    # As a workaround, we can navigate to the API URL
+    # and extract the response from the page's body
+
     product_api = "**/ProdPageWebPart.aspx?**"
     async with page.expect_request(product_api, timeout=5000) as request:
         value = await request.value
@@ -26,7 +30,7 @@ async def get_product_api_response(url: str) -> dict:
     logger.info("Getting API response...")
     await page.goto(api_url)
 
-    res = await page.locator('body').text_content()
+    res = await page.locator("body").text_content()
     assert res is not None
 
     data = _extract_json_from_response(res)
@@ -42,7 +46,7 @@ def _extract_json_from_response(res: str) -> dict:
     if start == -1 or end == -1:
         raise ValueError("No JSON found in API response")
 
-    json_str = res[start:end + 1]
+    json_str = res[start : end + 1]
     return json.loads(json_str)
 
 

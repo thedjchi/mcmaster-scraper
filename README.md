@@ -29,11 +29,22 @@ McMaster-Scraper requires [Playwright](https://playwright.dev/python) to fetch t
 
 ## Quick Start
 
+To use the Sync API, import the `sync_api` module and call `get_products_from_url(s)`:
 ```
 from mcmaster_scraper.sync_api import get_products_from_url
 
 url = "https://www.mcmaster.com/products/screws/socket-head-screws-2~/steel-socket-head-screws~~/"
 data = get_products_from_url(url) # Returns a DataFrame with all the products from the URL
+
+... # Do stuff with the DataFrame (filter, perform calculations, etc.)
+```
+
+Using the Async API is similar, import the `async_api` module and `await` the function call:
+```
+from mcmaster_scraper.async_api import get_products_from_url
+
+url = "https://www.mcmaster.com/products/screws/socket-head-screws-2~/steel-socket-head-screws~~/"
+data = await get_products_from_url(url) # Returns a DataFrame with all the products from the URL
 
 ... # Do stuff with the DataFrame (filter, perform calculations, etc.)
 ```

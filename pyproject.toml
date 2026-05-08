@@ -42,4 +42,13 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     "pdoc>=16.0.0",
+    "ruff>=0.15.12",
+]
+
+[tool.ruff]
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
 ]

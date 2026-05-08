@@ -1,9 +1,9 @@
 import asyncio
-import threading
 import sys
-from asyncio import AbstractEventLoop, wrap_future, CancelledError
+import threading
+from asyncio import AbstractEventLoop, CancelledError
 from concurrent.futures import Future
-from typing import Coroutine, Any, TypeVar, Union
+from typing import Any, Coroutine, TypeVar, Union
 
 T = TypeVar("T")
 
@@ -14,7 +14,7 @@ _lock = threading.Lock()
 
 async def run_in_loop_async(func: Coroutine[Any, Any, T]) -> T:
     c_future = _run_in_loop(func)
-    a_future = wrap_future(c_future)
+    a_future = asyncio.wrap_future(c_future)
     try:
         return await a_future
     except CancelledError:

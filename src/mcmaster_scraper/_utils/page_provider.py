@@ -1,7 +1,13 @@
 import asyncio
 from typing import Union
 
-from playwright.async_api import async_playwright, Playwright, Browser, Page, BrowserContext
+from playwright.async_api import (
+    Browser,
+    BrowserContext,
+    Page,
+    Playwright,
+    async_playwright,
+)
 
 _browser: Union[Browser, None] = None
 _browser_context: Union[BrowserContext, None] = None

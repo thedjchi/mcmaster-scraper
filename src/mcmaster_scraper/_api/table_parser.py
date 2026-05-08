@@ -1,9 +1,11 @@
 from pandas import DataFrame
-from ._text_parser import get_header_text, get_cell_text
+
+from ._text_parser import get_cell_text, get_header_text
+
 
 def get_product_tables(json: dict) -> dict[str, DataFrame]:
     tables = _find_pivot_tables(json)
-    dataframes = { k: _parse_pivot_table(v) for k, v in tables.items() }
+    dataframes = {k: _parse_pivot_table(v) for k, v in tables.items()}
     return dataframes
 
 
@@ -14,7 +16,10 @@ def _find_pivot_tables(root: dict) -> dict:
 
         if isinstance(node, dict):
             if node.get("Name") == "ProductPresentations":
-                return { product["Display"]["Title"]: product["Table"] for product in node["Data"] }
+                return {
+                    product["Display"]["Title"]: product["Table"]
+                    for product in node["Data"]
+                }
             else:
                 stack.extend(node.values())
 

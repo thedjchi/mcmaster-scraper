@@ -7,12 +7,15 @@ from ._utils.event_loop_wrapper import run_in_loop_sync
 def get_products_from_url(url: str, refresh: bool = False) -> DataFrame:
     """ Gets product tables from a McMaster-Carr URL.
 
-        If there are multiple product tables, they will be merged, and an additional "Product Type" column will be added.
+        If there are multiple product tables, they will be merged,
+        and an additional "Product Type" column will be added.
 
         Parameters
         ----------
         url : str
-            The URL to scrape. Must be a valid McMaster-Carr URL. The product tables must be visible on the webpage.
+            The URL to scrape.
+            Must be a valid McMaster-Carr URL.
+            The product tables must be visible on the webpage.
         refresh : bool, optional
             Whether to refresh the cached data. Default is False.
 

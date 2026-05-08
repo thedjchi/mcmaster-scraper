@@ -39,6 +39,7 @@ def _extract_text(meta_item: dict):
 
     return _parse_number(text)
 
+
 def _parse_number(text: str):
     t = text.replace('"', "").strip()
 
@@ -57,4 +58,3 @@ def _parse_number(text: str):
         pass
 
     return text
-
