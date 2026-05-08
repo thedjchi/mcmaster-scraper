@@ -11,3 +11,6 @@ wheels/
 
 # IDE files
 .idea
+
+# Generated API Reference
+docs/api

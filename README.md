@@ -42,7 +42,7 @@ data = get_products_from_url(url) # Returns a DataFrame with all the products fr
 
 ### API Reference
 
-The API reference can be found in GitHub Pages.
+The API reference can be found in [GitHub Pages](https://thedjchi.github.io/mcmaster-scraper/mcmaster_scraper.html).
 
 ### Examples
 
