@@ -8,7 +8,6 @@ calculations.
 ![PyPI - Python Versions](https://img.shields.io/pypi/pyversions/mcmaster-scraper?style=for-the-badge)
 ![PyPI - License](https://img.shields.io/pypi/l/mcmaster-scraper?style=for-the-badge)
 
-
 ## Features
 
 - Caches data locally to speed up future calls
@@ -23,13 +22,15 @@ McMaster-Scraper is available on PyPi:
 
 `pip install mcmaster-scraper`
 
-McMaster-Scraper requires [Playwright](https://playwright.dev/python) to fetch the product tables. It is already included as a dependency. However, you will need to install the browsers manually:
+McMaster-Scraper requires [Playwright](https://playwright.dev/python) to fetch the product tables. It is already
+included as a dependency. However, you will need to install the browsers manually:
 
 `playwright install`
 
 ## Quick Start
 
 To use the Sync API, import the `sync_api` module and call `get_products_from_url(s)`:
+
 ```
 from mcmaster_scraper.sync_api import get_products_from_url
 
@@ -40,6 +41,7 @@ data = get_products_from_url(url) # Returns a DataFrame with all the products fr
 ```
 
 Using the Async API is similar, import the `async_api` module and `await` the function call:
+
 ```
 from mcmaster_scraper.async_api import get_products_from_url
 
@@ -57,7 +59,8 @@ The API reference can be found on [GitHub Pages](https://thedjchi.github.io/mcma
 
 ### Examples
 
-An example script can be found in [docs/example.py](docs/example.py).
+An example script can be found
+in [docs/example.py](https://github.com/thedjchi/mcmaster-scraper/blob/master/docs/example.py).
 
 ## Disclaimer
 
@@ -78,4 +81,4 @@ policies.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/thedjchi/mcmaster-scraper/blob/master/LICENSE)
