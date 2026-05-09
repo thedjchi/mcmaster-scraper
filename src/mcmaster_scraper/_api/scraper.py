@@ -12,10 +12,10 @@ async def get_product_api_response(url: str) -> dict:
         raise ValueError("Not a McMaster-Carr URL")
 
     logger.info("Finding API for product page...")
+
     # Using Playwright because the API can only be discovered by loading the JavaScript
     page = await get_page()
-
-    await page.goto(url)
+    await page.goto(url, wait_until="commit")
 
     # If the JSON is too large, the response will be evicted
     # from the inspector cache before we can access it
@@ -23,10 +23,9 @@ async def get_product_api_response(url: str) -> dict:
     # As a workaround, we can navigate to the API URL
     # and extract the response from the page's body
 
-    product_api = "**/ProdPageWebPart.aspx?**"
+    product_api = "**/ProdPageWebPart.aspx**"
     async with page.expect_request(product_api, timeout=5000) as request:
-        value = await request.value
-        api_url = value.url
+        api_url = (await request.value).url
 
     logger.info("Getting API response...")
     await page.goto(api_url)

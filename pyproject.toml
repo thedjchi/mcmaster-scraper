@@ -29,6 +29,7 @@ dependencies = [
     "pandas>=2.3.3",
     "platformdirs>=3.5.1",
     "playwright>=1.14.0",
+    "playwright-stealth==2.0.3",
 ]
 
 [project.urls]
