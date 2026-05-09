@@ -40,6 +40,7 @@ def _extract_text(meta_item: dict):
     return _parse_number(text)
 
 
+# TODO parse units and normalize imperial vs metric based on pref
 def _parse_number(text: str):
     t = text.replace('"', "").strip()
 
