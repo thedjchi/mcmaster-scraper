@@ -1,12 +1,16 @@
-from pandas import DataFrame
+from pandas import DataFrame, concat
 
 from ._text_parser import get_cell_text, get_header_text
 
 
-def get_product_tables(json: dict) -> dict[str, DataFrame]:
+def get_products_table(json: dict) -> DataFrame:
     tables = _find_pivot_tables(json)
     dataframes = {k: _parse_pivot_table(v) for k, v in tables.items()}
-    return dataframes
+    dataframes_with_product_type = [
+        table.assign(**{"Product Type": product})
+        for product, table in dataframes.items()
+    ]
+    return concat(dataframes_with_product_type, ignore_index=True)
 
 
 def _find_pivot_tables(root: dict) -> dict:

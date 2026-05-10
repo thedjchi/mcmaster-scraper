@@ -1,12 +1,10 @@
-import hashlib
 from asyncio import create_task, gather
 
-import diskcache as dc
-import platformdirs
 from pandas import DataFrame, concat
 
 from ._api.scraper import get_product_api_response
-from ._api.table_parser import get_product_tables
+from ._api.table_parser import get_products_table
+from ._utils.cache import get_cached, set_cached
 from ._utils.event_loop_wrapper import run_in_loop_async
 
 
@@ -17,23 +15,14 @@ async def get_products_from_url(url: str, refresh: bool = False) -> DataFrame:
     --------
     sync_api.get_products_from_url
     """
-    cache_dir = platformdirs.user_cache_dir(
-        appname="mcmaster-scraper", appauthor=False, ensure_exists=True
-    )
-    cache = dc.Cache(cache_dir, eviction_policy="least-recently-used")
-    key = hashlib.md5(url.encode()).hexdigest()
-
-    if key in cache and not refresh:
-        json = cache[key]
+    cached = get_cached(url)
+    if cached and not refresh:
+        json = cached
     else:
         json = await run_in_loop_async(get_product_api_response(url))
-        cache[key] = json
+        set_cached(url, json)
 
-    tables = get_product_tables(json)
-    tables_with_product_type = [
-        table.assign(**{"Product Type": product}) for product, table in tables.items()
-    ]
-    return concat(tables_with_product_type, ignore_index=True)
+    return get_products_table(json)
 
 
 async def get_products_from_urls(
