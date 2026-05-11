@@ -37,25 +37,29 @@ def _find_pivot_tables(root: dict) -> dict:
 def _parse_pivot_table(table: dict) -> DataFrame:
     # For tables with multiple products in the same row,
     # only get the columns for the primary product
-    col_ids = table["Transformations"]["PrimaryProductGroup"]["ColumnIds"]
+    primary_col_ids = table["Transformations"]["PrimaryProductGroup"]["ColumnIds"]
 
     # For tables with only one product per row, PrimaryProductGroup will be empty
     # Fallback to all columns instead
-    if len(col_ids) == 0:
-        col_ids = table["ColumnIds"]
+    if len(primary_col_ids) == 0:
+        primary_col_ids = table["ColumnIds"]
 
     rows = table["Rows"]
     meta = table["Metadata"]
 
-    # Build headers
-    headers = [get_header_text(col_id, meta) for col_id in col_ids]
-
-    # Build row data
     def get_row_data(row: dict):
-        cell_ids = row["ColumnIdToCellIdMap"]
+        # Some tables have multiple primary parts in a single row
+        # Those tables have a "horizontalPivotGrouping" key in each ColumnIdToCellIdMap
+        # We only care about the entries that are column IDs,
+        # so we filter for digit entries only, as well as primary products only
+        cells = {
+            k: v
+            for k, v in row["ColumnIdToCellIdMap"].items()
+            if k.isdigit() and k in primary_col_ids
+        }
         return {
-            header: get_cell_text(cell_ids[col_id], meta)
-            for col_id, header in zip(col_ids, headers)
+            get_header_text(cell[0], meta): get_cell_text(cell[1], meta)
+            for cell in cells.items()
         }
 
     data = [get_row_data(row) for row in rows]
