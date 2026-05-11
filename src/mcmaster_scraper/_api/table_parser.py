@@ -5,11 +5,25 @@ from ._text_parser import get_cell_text, get_header_text
 
 def get_products_table(json: dict) -> DataFrame:
     tables = _find_pivot_tables(json)
-    dataframes = {k: _parse_pivot_table(v) for k, v in tables.items()}
+    dataframes = {
+        (product, subtype): _parse_pivot_table(table)
+        for (product, subtype), table in tables.items()
+    }
+
+    # Only show the product type/subtype if there is more than 1 unique value
+    show_product_type = len({p for p, _ in dataframes.keys()}) > 1
+    show_subtype = len({s for _, s in dataframes.keys()}) > 1
+
     dataframes_with_product_type = [
-        table.assign(**{"Product Type": product})
-        for product, table in dataframes.items()
+        df.assign(
+            **{
+                **({"Product Type": product} if show_product_type else {}),
+                **({"Product Subtype": subtype} if show_subtype else {}),
+            }
+        )
+        for (product, subtype), df in dataframes.items()
     ]
+
     return concat(dataframes_with_product_type, ignore_index=True)
 
 
@@ -20,11 +34,25 @@ def _find_pivot_tables(root: dict) -> dict:
 
         if isinstance(node, dict):
             if node.get("Name") == "ProductPresentations":
-                return {
-                    item["Display"]["Title"]: item["Table"]
+
+                def get_table_title(item: dict) -> str:
+                    return item["Display"]["Title"]
+
+                def get_table_key(
+                    product: dict, subtype: dict
+                ) -> tuple[str, str | None]:
+                    if product == subtype:
+                        return get_table_title(product), None
+                    else:
+                        return get_table_title(product), get_table_title(subtype)
+
+                tables = {
+                    get_table_key(product, subtype): subtype["Table"]
                     for product in node["Data"]
-                    for item in [product, *product["Children"]]
+                    for subtype in [product, *product["Children"]]
                 }
+
+                return tables
             else:
                 stack.extend(node.values())
 
