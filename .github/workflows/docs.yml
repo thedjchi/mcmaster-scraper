@@ -24,7 +24,7 @@ jobs:
           python-version: '3.14'
 
       - run: pip install -e . --group dev
-      - run: pdoc ./src/mcmaster_scraper -o docs/api
+      - run: pdoc ./src/mcmaster_scraper -o docs/api --docformat numpy
 
       - uses: actions/upload-pages-artifact@v4
         with:
