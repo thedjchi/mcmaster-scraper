@@ -1,6 +1,6 @@
 from asyncio import create_task, gather
 
-from pandas import DataFrame, concat
+from pandas import DataFrame
 
 from ._api.scraper import get_product_api_response
 from ._api.table_parser import get_products_table

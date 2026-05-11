@@ -34,7 +34,15 @@ def _find_pivot_tables(root: dict) -> dict:
 
 
 def _parse_pivot_table(table: dict) -> DataFrame:
-    col_ids = table["ColumnIds"]
+    # For tables with multiple products in the same row,
+    # only get the columns for the primary product
+    col_ids = table["Transformations"]["PrimaryProductGroup"]["ColumnIds"]
+
+    # For tables with only one product per row, PrimaryProductGroup will be empty
+    # Fallback to all columns instead
+    if len(col_ids) == 0:
+        col_ids = table["ColumnIds"]
+
     rows = table["Rows"]
     meta = table["Metadata"]
 
