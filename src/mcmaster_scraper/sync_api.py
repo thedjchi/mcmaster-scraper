@@ -16,7 +16,7 @@ def get_products_from_url(url: str, refresh: bool = False) -> DataFrame:
         The URL to scrape.
         Must be a valid McMaster-Carr URL.
         The product tables must be visible on the webpage.
-    refresh : bool, optional
+    refresh : bool, default False
         Whether to refresh the cached data. Default is False.
 
     Returns
