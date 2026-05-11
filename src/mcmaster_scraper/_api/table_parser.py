@@ -21,8 +21,9 @@ def _find_pivot_tables(root: dict) -> dict:
         if isinstance(node, dict):
             if node.get("Name") == "ProductPresentations":
                 return {
-                    product["Display"]["Title"]: product["Table"]
+                    item["Display"]["Title"]: item["Table"]
                     for product in node["Data"]
+                    for item in [product, *product["Children"]]
                 }
             else:
                 stack.extend(node.values())
