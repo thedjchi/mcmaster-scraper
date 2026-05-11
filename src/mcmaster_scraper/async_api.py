@@ -17,12 +17,12 @@ async def get_products_from_url(url: str, refresh: bool = False) -> DataFrame:
     """
     cached = get_cached(url)
     if cached and not refresh:
-        json = cached
+        data = cached
     else:
-        json = await run_in_loop_async(get_product_api_response(url))
-        set_cached(url, json)
+        data = await run_in_loop_async(get_product_api_response(url))
+        set_cached(url, data)
 
-    return get_products_table(json)
+    return get_products_table(data)
 
 
 async def get_products_from_urls(
