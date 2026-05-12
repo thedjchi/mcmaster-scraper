@@ -1,3 +1,5 @@
+from io import UnsupportedOperation
+
 from pandas import DataFrame, concat
 
 from ._text_parser import get_cell_text, get_header_text
@@ -59,7 +61,7 @@ def _find_pivot_tables(root: dict) -> dict:
         elif isinstance(node, list):
             stack.extend(node)
 
-    raise KeyError("The McMaster URL provided does not have a visible product table.")
+    raise UnsupportedOperation("Product table extraction is unsupported for this page.")
 
 
 def _parse_pivot_table(table: dict) -> DataFrame:

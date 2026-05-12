@@ -28,6 +28,8 @@ def get_products_from_url(url: str, refresh: bool = False) -> DataFrame:
     ------
     ValueError
         If the URL is not a valid McMaster-Carr URL.
+    UnsupportedOperation
+        If product table extraction is unsupported for the URL.
     """
     return run_in_loop_sync(async_api.get_products_from_url(url, refresh))
 

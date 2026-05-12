@@ -62,6 +62,12 @@ The API reference can be found on [GitHub Pages](https://thedjchi.github.io/mcma
 An example script can be found
 in [docs/example.py](https://github.com/thedjchi/mcmaster-scraper/blob/master/docs/example.py).
 
+## Known Limitations
+
+Some pages generate server-side HTML rather than client-side rendering a JSON response.
+These pages are currently unsupported but may be supported in the future.
+`UnsupportedOperation` will be raised for such pages.
+
 ## Disclaimer
 
 This library is for responsible data extraction only. Do not:
