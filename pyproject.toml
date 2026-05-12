@@ -1,6 +1,6 @@
 [project]
 name = "mcmaster-scraper"
-version = "0.2.0"
+version = "0.2.1"
 description = "Fetch product tables from a McMaster-Carr URL as a DataFrame for complex filtering and calculations"
 keywords = ["mcmaster", "mcmaster-carr", "scraper", "extractor", "parser", "fetcher", "part", "catalog", "product"]
 classifiers = [
