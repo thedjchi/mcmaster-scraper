@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.2.1 (2026-05-12)
+
+### Added
+
+- Documentation on known limitations of the library
+    - Currently, pages which perform server-side HTML rendering are unsupported
+
+### Fixed
+
+- Incorrect API reference formatting
+- Some pages with additional product groupings did not have that data displayed in the table
+
 ## v0.2.0 (2026-05-11)
 
 ### Added
