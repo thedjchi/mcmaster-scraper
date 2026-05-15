@@ -73,9 +73,20 @@ These pages are currently unsupported but may be supported in the future.
 This library is for responsible data extraction only. Do not:
 
 - Scrape beyond reasonable rates
-- Violate Terms of Service
-- Circumvent access controls
+- Violate McMaster-Carr's [Terms and Conditions](https://www.mcmaster.com/termsandconditions/)
 - Use data for unauthorized commercial purposes
+
+Specifically, from McMaster-Carr's [Terms and Conditions](https://www.mcmaster.com/termsandconditions/):
+
+> *Grant of Limited Use License.* ... the McMaster-Carr Properties are only for your use in deciding whether to
+> purchase Products from us and in purchasing Products from us. You agree that you will impose only that load on
+> McMaster-Carr’s servers that is necessary for your use in deciding whether to purchase Products from us and in
+> purchasing Products from us.
+
+Any use of this library should additionally be compliant with the
+*Prohibited Uses of the McMaster-Carr Properties* section of their Terms and Conditions.
+The library is compliant with subsection (iii)(a) of this clause,
+which requires the library to identify as a robot in its network requests.
 
 ## Legal Notice
 

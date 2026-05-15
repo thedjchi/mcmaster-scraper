@@ -13,8 +13,10 @@ def get_products_table(json: dict) -> DataFrame:
     }
 
     # Only show the product type/subtype if there is more than 1 unique value
-    show_product_type = len({p for p, _ in dataframes.keys()}) > 1
-    show_subtype = len({s for _, s in dataframes.keys()}) > 1
+    unique_products = {p for p, _ in dataframes.keys()}
+    unique_subtypes = {s for _, s in dataframes.keys()}
+    show_product_type = len(unique_products) > 1
+    show_subtype = len(unique_subtypes) > 1
 
     dataframes_with_product_type = [
         df.assign(
@@ -80,12 +82,9 @@ def _parse_pivot_table(table: dict) -> DataFrame:
     def get_row_data(row: dict):
         # Some tables have multiple primary parts in a single row
         # Those tables have a "horizontalPivotGrouping" key in each ColumnIdToCellIdMap
-        # We only care about the entries that are column IDs,
-        # so we filter for digit entries only, as well as primary products only
+        # We only care about the entries that are column IDs, so we filter the rest out
         cells = {
-            k: v
-            for k, v in row["ColumnIdToCellIdMap"].items()
-            if k.isdigit() and k in primary_col_ids
+            k: v for k, v in row["ColumnIdToCellIdMap"].items() if k in primary_col_ids
         }
         return {
             get_header_text(cell[0], meta): get_cell_text(cell[1], meta)

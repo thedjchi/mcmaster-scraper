@@ -15,7 +15,11 @@ async def _ensure_browser_context() -> BrowserContext:
         if _browser_context:
             return _browser_context
 
-        _playwright = await Stealth().use_async(async_playwright()).start()
+        _playwright = (
+            await Stealth(navigator_user_agent=False)
+            .use_async(async_playwright())
+            .start()
+        )
         _browser = await _playwright.chromium.launch()
         _browser_context = await _browser.new_context()
 
